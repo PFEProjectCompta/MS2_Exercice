@@ -1,21 +1,24 @@
+scalar Date
 type Query {
     exerciceList:[Exercice]
     fullExerciceList:[Exercice]
+    exerciceById(id:String):Exercice
 }
 
-#type Mutation{
-#    ajouterExercice(exercice: ExerciceDTO):Exercice
-#}
-#scalar Date
-#input ExerciceDTO{
-#    date_debut :Date ,
-#    date_fin :Date ,
-#    societeId :String
-#}
+type Mutation{
+    ajouterExercice(exercice: ExerciceDTO):Exercice
+    modifierExercice(exercice:ExerciceDTO, id : String):Exercice
+}
+
+input ExerciceDTO{
+    date_debut :String ,
+    date_fin :String ,
+    societeId :String
+}
 type Exercice{
     id :String ,
-    date_debut :Float ,
-    date_fin :Float ,
+    date_debut :String ,
+    date_fin :String ,
     saisieJournauxes :[SaisieJournaux] ,
     societeId :String ,
     societe :Societe

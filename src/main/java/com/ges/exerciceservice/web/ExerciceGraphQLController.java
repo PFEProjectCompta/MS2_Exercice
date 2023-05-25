@@ -1,12 +1,16 @@
 package com.ges.exerciceservice.web;
 
+import com.ges.exerciceservice.dto.ExerciceDTO;
 import com.ges.exerciceservice.entities.Exercice;
 import com.ges.exerciceservice.repository.ExerciceRepository;
 import com.ges.exerciceservice.service.SocieteRestClientService;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class ExerciceGraphQLController {
@@ -19,10 +23,6 @@ public class ExerciceGraphQLController {
 
     @QueryMapping
     public List<Exercice> exerciceList(){
-        List<Exercice> exercices=exerciceRepository.findAll();
-        exercices.forEach(exercice -> {
-            exercice.setSociete(societeRestClientService.SocieteById(exercice.getSocieteId()));
-        });
         return exerciceRepository.findAll();
     }
 
@@ -35,7 +35,32 @@ public class ExerciceGraphQLController {
         exercices.forEach(exercice -> {
             exercice.getSociete().setCompteUtilisateur(societeRestClientService.fullSocieteCompteUtilisateur(exercice.getSocieteId()));
         });
-
         return exerciceRepository.findAll();
+    }
+
+    @QueryMapping
+    public Exercice exerciceById(@Argument String id){
+        Exercice exercice=exerciceRepository.findById(id).get();
+        exercice.setSociete(societeRestClientService.SocieteById(exercice.getSocieteId()));
+        exercice.getSociete().setCompteUtilisateur(societeRestClientService.fullSocieteCompteUtilisateur(exercice.getSocieteId()));
+        return exercice;
+    }
+    @MutationMapping
+    public Exercice ajouterExercice(@Argument ExerciceDTO exercice){
+        Exercice exerciceAjout=new Exercice();
+        exerciceAjout.setId(UUID.randomUUID().toString());
+        exerciceAjout.setDate_debut(exercice.getDate_debut());
+        exerciceAjout.setDate_fin(exercice.getDate_fin());
+        exerciceAjout.setSocieteId(exercice.getSocieteId());
+        return exerciceRepository.save(exerciceAjout);
+    }
+
+    @MutationMapping
+    public Exercice modifierExercice(@Argument ExerciceDTO exercice, @Argument String id){
+        Exercice exerciceModifier=exerciceRepository.findById(id).get();
+        exerciceModifier.setDate_debut(exercice.getDate_debut());
+        exerciceModifier.setDate_fin(exercice.getDate_fin());
+        exerciceModifier.setSocieteId(exercice.getSocieteId());
+        return exerciceRepository.save(exerciceModifier);
     }
 }

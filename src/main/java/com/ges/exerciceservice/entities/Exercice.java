@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -16,8 +17,8 @@ import java.util.List;
 public class Exercice {
     @Id
     private String id;
-    private Date date_debut;
-    private Date date_fin;
+    private String date_debut;
+    private String date_fin;
     @OneToMany(mappedBy = "exercice")
     private List<SaisieJournaux> saisieJournauxes;
     private String societeId;

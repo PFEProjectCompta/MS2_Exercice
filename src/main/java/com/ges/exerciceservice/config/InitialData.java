@@ -11,6 +11,9 @@ import com.ges.exerciceservice.repository.SaisieJournalRepository;
 import com.ges.exerciceservice.service.SocieteRestClientService;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Component
@@ -30,13 +33,14 @@ public class InitialData {
     }
 
     public  static void creeExercice(){
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         List<Societe> societes= societeRestClientService.allSocietes().getContent().stream().toList();
         societes.forEach(societe -> {
             for(int i=0;i<5;i++){
                 Exercice exercice=Exercice.builder()
                         .id(UUID.randomUUID().toString())
-                        .date_debut(new Date())
-                        .date_fin(new Date())
+                        .date_debut(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString())
+                        .date_fin(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString())
                         .societeId(societe.getId())
                         .build();
                 System.out.println("Exercice: "+exerciceRepository.save(exercice).getId());
