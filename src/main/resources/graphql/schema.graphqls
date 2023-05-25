@@ -1,0 +1,85 @@
+type Query {
+    exerciceList:[Exercice]
+    fullExerciceList:[Exercice]
+}
+
+#type Mutation{
+#    ajouterExercice(exercice: ExerciceDTO):Exercice
+#}
+#scalar Date
+#input ExerciceDTO{
+#    date_debut :Date ,
+#    date_fin :Date ,
+#    societeId :String
+#}
+type Exercice{
+    id :String ,
+    date_debut :Float ,
+    date_fin :Float ,
+    saisieJournauxes :[SaisieJournaux] ,
+    societeId :String ,
+    societe :Societe
+}
+
+type SaisieJournaux{
+    id :String ,
+    position :String,
+    periode :String ,
+    code: String ,
+    intitule_journale :String ,
+    exercice:Exercice ,
+    journales:[Journale]
+}
+
+type Journale{
+    id: String ,
+    jour :Int ,
+    numFacture :String ,
+    ref: String ,
+    numCompte :String ,
+    numCompteTiere: String ,
+    libelle :String ,
+    credit:Float ,
+    debit: Float ,
+    saisieJournaux :SaisieJournaux
+}
+
+type BureauAdmine{
+    id : String,
+    nom: String ,
+    prenom: String,
+    email : String
+}
+type Bureau{
+    id :String ,
+    nom :String ,
+    adresse :String ,
+    ville :String ,
+    paye :String ,
+    numero_tele: String ,
+    email :String,
+    admine:BureauAdmine,
+    compteUtilisateurs: [CompteUtilisateur]
+}
+type Societe{
+    id :String ,
+    raison_social: String ,
+    activite :String ,
+    adresse: String,
+    compteUtilisateur: CompteUtilisateur
+}
+
+type CompteUtilisateur{
+    id: String,
+    nom :String ,
+    prenom: String ,
+    email :String ,
+    adresse: String ,
+    ville :String ,
+    pays :String ,
+    telephone: String ,
+    date_naissance : Float ,
+    actif : Boolean,
+    bureau: Bureau,
+    societes: [Societe]
+}
