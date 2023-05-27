@@ -1,19 +1,54 @@
 scalar Date
 type Query {
+#QUERY FOR "Exercice"
     exerciceList:[Exercice]
     fullExerciceList:[Exercice]
     exerciceById(id:String):Exercice
+#QUERY FOR "SaisieJournaux"
+    saisiJournauxList:[SaisieJournaux]
+    saisieJournalById(id:String):SaisieJournaux
+#QUERY FOR "Journale"
+    journaleList:[Journale]
+    journaleById(id:String):Journale
 }
 
 type Mutation{
+#MUTATION FOR "Exercice"
     ajouterExercice(exercice: ExerciceDTO):Exercice
     modifierExercice(exercice:ExerciceDTO, id : String):Exercice
+
+#MUTATION FOR "SaisieJournaux"
+    ajouterSaisieJournaux(saisiJournal:SaisieJournalDTO):SaisieJournaux
+    updateSaisieJournaux(saisiJournal:SaisieJournalDTO,id:String):SaisieJournaux
+    deleteSaisieJournaux(id:String):SaisieJournaux
+#MUTATION FOR "Journale"
+    ajouterJournale(journalDTO:JournaleDTO):Journale
+    updateJournale(journalDTO:JournaleDTO,id :String):Journale
+    deleteJournale(id :String):Journale
 }
 
 input ExerciceDTO{
     date_debut :String ,
     date_fin :String ,
     societeId :String
+}
+input SaisieJournalDTO{
+    position: String ,
+    periode: String ,
+    code: String ,
+    intitule_journale: String ,
+    exerciceId: String
+}
+input JournaleDTO{
+    jour :Int
+    numFacture :String ,
+    ref :String ,
+    numCompte :String ,
+    numCompteTiere: String ,
+    libelle :String ,
+    credit: Float ,
+    debit: Float ,
+    saisieJournauxId :String
 }
 type Exercice{
     id :String ,
@@ -86,3 +121,5 @@ type CompteUtilisateur{
     bureau: Bureau,
     societes: [Societe]
 }
+
+

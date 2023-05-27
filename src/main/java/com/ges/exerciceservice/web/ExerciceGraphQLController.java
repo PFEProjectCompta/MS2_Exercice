@@ -2,6 +2,8 @@ package com.ges.exerciceservice.web;
 
 import com.ges.exerciceservice.dto.ExerciceDTO;
 import com.ges.exerciceservice.entities.Exercice;
+import com.ges.exerciceservice.entities.Journale;
+import com.ges.exerciceservice.entities.SaisieJournaux;
 import com.ges.exerciceservice.repository.ExerciceRepository;
 import com.ges.exerciceservice.service.SocieteRestClientService;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -61,6 +63,7 @@ public class ExerciceGraphQLController {
         exerciceModifier.setDate_debut(exercice.getDate_debut());
         exerciceModifier.setDate_fin(exercice.getDate_fin());
         exerciceModifier.setSocieteId(exercice.getSocieteId());
+        Journale j=new Journale();
         return exerciceRepository.save(exerciceModifier);
     }
 }

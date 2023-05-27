@@ -24,6 +24,6 @@ public class SaisieJournaux {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "exercice")
     private Exercice exercice;
-    @OneToMany(mappedBy = "saisieJournaux")
+    @OneToMany(mappedBy = "saisieJournaux",cascade = CascadeType.REMOVE)
     private List<Journale> journales;
 }
