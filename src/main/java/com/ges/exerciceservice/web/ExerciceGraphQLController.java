@@ -10,6 +10,8 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,10 +34,10 @@ public class ExerciceGraphQLController {
     public List<Exercice> fullExerciceList(){
         List<Exercice> exercices=exerciceRepository.findAll();
         exercices.forEach(exercice -> {
-            exercice.setSociete(societeRestClientService.SocieteById(exercice.getSocieteId()));
+            exercice.setSociete(societeRestClientService.SocieteById(((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader("Authorization"),exercice.getSocieteId()));
         });
         exercices.forEach(exercice -> {
-            exercice.getSociete().setCompteUtilisateur(societeRestClientService.fullSocieteCompteUtilisateur(exercice.getSocieteId()));
+            exercice.getSociete().setCompteUtilisateur(societeRestClientService.fullSocieteCompteUtilisateur(((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getHeader("Authorization"),exercice.getSocieteId()));
         });
         return exerciceRepository.findAll();
     }
@@ -43,8 +45,8 @@ public class ExerciceGraphQLController {
     @QueryMapping
     public Exercice exerciceById(@Argument String id){
         Exercice exercice=exerciceRepository.findById(id).get();
-        exercice.setSociete(societeRestClientService.SocieteById(exercice.getSocieteId()));
-        exercice.getSociete().setCompteUtilisateur(societeRestClientService.fullSocieteCompteUtilisateur(exercice.getSocieteId()));
+        exercice.setSociete(societeRestClientService.SocieteById(((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getHeader("Authorization"),exercice.getSocieteId()));
+        exercice.getSociete().setCompteUtilisateur(societeRestClientService.fullSocieteCompteUtilisateur(((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getHeader("Authorization"),exercice.getSocieteId()));
         return exercice;
     }
     @MutationMapping

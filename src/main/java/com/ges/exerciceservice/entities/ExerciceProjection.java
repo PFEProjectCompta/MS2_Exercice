@@ -5,7 +5,7 @@ import org.springframework.data.rest.core.config.Projection;
 
 import java.util.List;
 
-@Projection(name = "fullExercice", types = Exercice.class)
+@Projection(name = "exerciceProjection", types = Exercice.class)
 public interface ExerciceProjection {
     public String getId();
     public Societe getSociete();

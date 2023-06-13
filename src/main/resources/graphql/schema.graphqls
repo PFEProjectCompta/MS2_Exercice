@@ -74,11 +74,13 @@ type Journale{
     jour :Int ,
     numFacture :String ,
     ref: String ,
-    numCompte :String ,
-    numCompteTiere: String ,
+    numCompteId :String ,
+    numCompteTiereId: String ,
     libelle :String ,
     credit:Float ,
     debit: Float ,
+    numCompte:PlanComptableElement,
+    numCompteTiere:PlanComptableElement,
     saisieJournaux :SaisieJournaux
 }
 
@@ -123,3 +125,16 @@ type CompteUtilisateur{
 }
 
 
+type PlanComptableElement{
+    id :String ,
+    numeroCompte: String ,
+    intitule: String ,
+    reporter: Boolean,
+    compteGeneral: CompteGeneral
+}
+type CompteGeneral{
+    id :String,
+    natureCompte :String ,
+    debutFaurchette: String ,
+    finFaurchette :String
+}
