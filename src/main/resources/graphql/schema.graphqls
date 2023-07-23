@@ -4,23 +4,34 @@ type Query {
     exerciceList:[Exercice]
     fullExerciceList:[Exercice]
     exerciceById(id:String):Exercice
+    fullExerciceListBySocieteId(id:String):[Exercice]
+#QUERY FOR "CodeJournal"
+    fullCodeJournalListByExerciceId(id:String):[CodeJournaux]
+    codeJournalById(id:String):CodeJournaux
 #QUERY FOR "SaisieJournaux"
     saisiJournauxList:[SaisieJournaux]
     saisieJournalById(id:String):SaisieJournaux
+    saisieJournauxByCodeJournal(id:String):[SaisieJournaux]
+    saisieJournauxByExercice(idExercice:String):[SaisieJournaux]
 #QUERY FOR "Journale"
     journaleList:[Journale]
     journaleById(id:String):Journale
+    journaleBySaisieJournal(id:String):[Journale]
 }
 
 type Mutation{
 #MUTATION FOR "Exercice"
     ajouterExercice(exercice: ExerciceDTO):Exercice
     modifierExercice(exercice:ExerciceDTO, id : String):Exercice
-
+#MUTATION FOR "CodeJournal"
+    ajouterCodeJournal(codeJournauxDTO:CodeJournauxDTO):CodeJournaux
+    modifierCodeJournal(codeJournauxDTO:CodeJournauxDTO,id : String):CodeJournaux
+    supprimerCodeJournal(id : String):CodeJournaux
 #MUTATION FOR "SaisieJournaux"
     ajouterSaisieJournaux(saisiJournal:SaisieJournalDTO):SaisieJournaux
     updateSaisieJournaux(saisiJournal:SaisieJournalDTO,id:String):SaisieJournaux
     deleteSaisieJournaux(id:String):SaisieJournaux
+    ajouterAllSaisieJournaux(idCodeJournal:String):String
 #MUTATION FOR "Journale"
     ajouterJournale(journalDTO:JournaleDTO):Journale
     updateJournale(journalDTO:JournaleDTO,id :String):Journale
@@ -37,14 +48,14 @@ input SaisieJournalDTO{
     periode: String ,
     code: String ,
     intitule_journale: String ,
-    exerciceId: String
+    code_Journal_id: String
 }
 input JournaleDTO{
     jour :Int
     numFacture :String ,
     ref :String ,
-    numCompte :String ,
-    numCompteTiere: String ,
+    numCompteId :String ,
+    numCompteTiereId: String ,
     libelle :String ,
     credit: Float ,
     debit: Float ,
@@ -54,19 +65,33 @@ type Exercice{
     id :String ,
     date_debut :String ,
     date_fin :String ,
-    saisieJournauxes :[SaisieJournaux] ,
     societeId :String ,
-    societe :Societe
+    societe :Societe,
+    codeJournaux:[CodeJournaux]
 }
-
+type CodeJournaux{
+    id: String ,
+    code: String ,
+    intitule_journale: String ,
+    type_journal: String ,
+    exercice: Exercice ,
+    saisieJournaux :[SaisieJournaux]
+}
+input CodeJournauxDTO{
+    code: String ,
+    intitule_journale: String ,
+    type_journal: String ,
+    exerciceId: String ,
+}
 type SaisieJournaux{
     id :String ,
     position :String,
     periode :String ,
     code: String ,
     intitule_journale :String ,
-    exercice:Exercice ,
-    journales:[Journale]
+    classement: Int ,
+    code_Journal:CodeJournaux ,
+    journaux:[Journale]
 }
 
 type Journale{

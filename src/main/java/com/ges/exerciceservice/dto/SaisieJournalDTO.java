@@ -11,6 +11,5 @@ public class SaisieJournalDTO {
     private String periode;
     private String code;
     private String intitule_journale;
-    private String exerciceId;
-
+    private String code_Journal_id;
 }

@@ -64,7 +64,6 @@ public class InitialData {
                         .periode("janvier."+i)
                         .code("ABC"+i*i)
                         .intitule_journale("XYZ"+Math.random()*i)
-                        .exercice(exercice)
                         .build();
                 System.out.println("Saisi Journal : "+saisieJournalRepository.save(saisieJournaux).getId());
             }

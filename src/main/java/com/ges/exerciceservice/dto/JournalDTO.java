@@ -9,8 +9,8 @@ public class JournalDTO {
     private int jour;
     private String numFacture;
     private String ref;
-    private String numCompte;
-    private String numCompteTiere;
+    private String numCompteId;
+    private String numCompteTiereId;
     private String libelle;
     private double credit;
     private double debit;

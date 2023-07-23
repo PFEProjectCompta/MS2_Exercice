@@ -19,9 +19,11 @@ public class Exercice {
     private String id;
     private String date_debut;
     private String date_fin;
-    @OneToMany(mappedBy = "exercice",cascade = CascadeType.REMOVE)
-    private List<SaisieJournaux> saisieJournauxes;
     private String societeId;
     @Transient
     private Societe societe;
+//    @OneToMany(mappedBy = "exercice",cascade = CascadeType.REMOVE)
+//    private List<SaisieJournaux> saisieJournauxes;
+    @OneToMany(mappedBy = "exercice",cascade = CascadeType.REMOVE)
+    private List<CodeJournaux> codeJournaux;
 }

@@ -27,7 +27,7 @@ public class Journale {
     @Transient
     private PlanComptableElement numCompteTiere;
     @ManyToOne
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name="saisie_journaux")
     private SaisieJournaux saisieJournaux;
 }

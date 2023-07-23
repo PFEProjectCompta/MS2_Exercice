@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,10 +44,22 @@ public class ExerciceGraphQLController {
     }
 
     @QueryMapping
+    public List<Exercice> fullExerciceListBySocieteId(@Argument String id){
+        List<Exercice> exercices=exerciceRepository.findAll();
+        List<Exercice> exerciceListBySocieteId=new ArrayList<>();
+        for(int i=0;i<exercices.size();i++){
+            if(exercices.get(i).getSocieteId().equals(id)){
+                exerciceListBySocieteId.add(exercices.get(i));
+            }
+        }
+        return exerciceListBySocieteId;
+    }
+
+    @QueryMapping
     public Exercice exerciceById(@Argument String id){
         Exercice exercice=exerciceRepository.findById(id).get();
-        exercice.setSociete(societeRestClientService.SocieteById(((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getHeader("Authorization"),exercice.getSocieteId()));
-        exercice.getSociete().setCompteUtilisateur(societeRestClientService.fullSocieteCompteUtilisateur(((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getHeader("Authorization"),exercice.getSocieteId()));
+//        exercice.setSociete(societeRestClientService.SocieteById(((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getHeader("Authorization"),exercice.getSocieteId()));
+//        exercice.getSociete().setCompteUtilisateur(societeRestClientService.fullSocieteCompteUtilisateur(((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getHeader("Authorization"),exercice.getSocieteId()));
         return exercice;
     }
     @MutationMapping
@@ -65,7 +78,6 @@ public class ExerciceGraphQLController {
         exerciceModifier.setDate_debut(exercice.getDate_debut());
         exerciceModifier.setDate_fin(exercice.getDate_fin());
         exerciceModifier.setSocieteId(exercice.getSocieteId());
-        Journale j=new Journale();
         return exerciceRepository.save(exerciceModifier);
     }
 }
