@@ -17,6 +17,12 @@ type Query {
     journaleList:[Journale]
     journaleById(id:String):Journale
     journaleBySaisieJournal(id:String):[Journale]
+
+#QUERY FOR "ExerciceEtat"
+    exerciceEtatList:[ExerciceEtat]
+    findByIdExercice(id:String):ExerciceEtat
+    idAllExerciceCloseOfSociete(idSociete:String):Boolean
+    getLastResultat(idSociete:String):ExerciceEtat
 }
 
 type Mutation{
@@ -36,6 +42,11 @@ type Mutation{
     ajouterJournale(journalDTO:JournaleDTO):Journale
     updateJournale(journalDTO:JournaleDTO,id :String):Journale
     deleteJournale(id :String):Journale
+#MUTATION FOR "ExerciceEtat"
+    ajouterExerciceEtat(exerciceId:String):ExerciceEtat
+    modifierExerciceEtatResultat(idExercice:String,resultat:Float):ExerciceEtat
+    modifierExerciceEtat(idExercice:String,isFermer:Boolean):ExerciceEtat
+
 }
 
 input ExerciceDTO{
@@ -77,11 +88,18 @@ type CodeJournaux{
     exercice: Exercice ,
     saisieJournaux :[SaisieJournaux]
 }
+type ExerciceEtat{
+    id :String ,
+    isFermer: Boolean ,
+    classement :Int,
+    resultat :Float,
+    exerciceId: String
+}
 input CodeJournauxDTO{
     code: String ,
     intitule_journale: String ,
     type_journal: String ,
-    exerciceId: String ,
+    exerciceId: String
 }
 type SaisieJournaux{
     id :String ,
